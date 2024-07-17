@@ -3,7 +3,7 @@
 
 If you want to alter or add to this script please feel free to do so
 
-![PICTURE](https://raw.githubusercontent.com/Quinny-J/Commander/main/pic.png)
+![PICTURE](https://raw.githubusercontent.com/Quinny-J/Supervisor/main/snap.png)
 
 # ⚡ Getting Started
 
@@ -27,10 +27,3 @@ $ python -m flask run
 - Flask - https://flask.palletsprojects.com/en/3.0.x/
 - OS Lib - https://docs.python.org/3/library/os.html
 - DateTime Lib - https://docs.python.org/3/library/datetime.html
-
-## 📝 Todo (maybe)
-- [x] Read command history from list
-- [] Read command history from text file to display
-- [] Command filter/blacklist
-- [] Server/Client so commands can be ran on multiple rpis at once from the web ui
-- [] API ?
