@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Traffic Monitor</title>
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/19e3dfa217.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+<body>
+    <style type="text/css">
+        /* Firefox */
+        * {
+            scrollbar-width: auto;
+            scrollbar-color: #10163a #262c49;
+        }
+    
+        /* Chrome, Edge, and Safari */
+        *::-webkit-scrollbar {
+            width: 10px;
+        }
+    
+        *::-webkit-scrollbar-track {
+            background: #262c49;
+        }
+    
+        *::-webkit-scrollbar-thumb {
+            background-color: #10163a;
+            border-radius: 10px;
+            border: 3px solid #10163a;
+        }
+    </style>
+    <div class="box-container">
+        <div class="dbox">
+            <div class="steamy-box">
+                <i class="fa-solid fa-terminal"></i>
+                <span>Supervisor</span> 
+              </div>
+              <br>
+              <div class="box-header">
+                <h2>Monitor Traffic - Check Requests Incoming</h2>
+              </div>
+            <div id="container" style="color:white; width:100%; height:400px;"></div>
+            <div id="Test" class="input-group">
+                <label id="steamy-label"><i class="fa-regular fa-file-code"></i> Made by <a href="https://github.com/quinny-j">github.com/quinny-j</a></label>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var chart = Highcharts.chart('container', {
+                chart: {
+                    backgroundColor: '#333',
+                    type: 'area',
+                    zoomType: 'x',
+                    style: {
+                        fontFamily: "'Unica One', sans-serif"
+                    }
+                },
+                title: {
+                    text: 'Requests per Second',
+                    style: {
+                        color: "#c2c6dc",
+                        textTransform: 'uppercase',
+                        fontSize: '20px'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#10163a',
+                    style: {
+                        color: '#F0F0F0'
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                xAxis: {
+                    type: 'datetime',
+                    gridLineColor: '#707073',
+                    labels: {
+                        style:{
+                            color: '#E0E0E3'
+                        }
+                    },
+                    lineColor: '#707073',
+                    minorGridLineColor: '#505053',
+                    tickColor: '#707073',
+                    title: {
+                        style: {
+                            color: '#A0A0A3'
+                        }
+                    }
+                },
+                yAxis: {
+                    labels: {
+                        style: {
+                            color: '#c2c6dc'
+                        }
+                    },
+                    min: 0,
+                    title: {
+                        text: 'Requests/Sec',
+                        margin: 80,
+                        style: {
+                            color: '#c2c6dc'
+                        }
+                    }
+                },
+                legend :{
+                    useHTML: true,
+                    symbolWidth: 0,
+                    labelFormatter: function () {
+                        return '<div>' +
+                            '<div style="display: inline-block; margin-right:5px"> </div>' +
+                            "<span style='color: #c2c6dc;'> " + this.name +  " </span>" +
+                            '</div>'
+                    }
+
+                },
+                series: [{
+                    name: 'Total Requests',
+                    color: '#c2c6dc',
+                    type: 'area',
+                    data: []
+                }]
+            });
+
+            function updateChart() {
+                fetch('/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        var date = new Date();
+                        var x = date.getTime();
+                        var y = data[date.getSeconds()]; // Get the data for the current second
+                        //console.log(data); // Making sure i was retrieving the data properly 
+                        chart.series[0].addPoint([x, y], true, chart.series[0].points.length > 60);
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            }
+
+            setInterval(updateChart, 1000);
+        });
+    </script>
+</body>
+</html>
