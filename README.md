@@ -1,5 +1,6 @@
 # 🕹️ SUPERVISOR
  Python script to monitor traffic data and display it visually in realtime on the hosted system from a browser using flask
+ Beware super simple and could not be 100% accurate
 
 If you want to alter or add to this script please feel free to do so
 
